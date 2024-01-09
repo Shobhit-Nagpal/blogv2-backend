@@ -3,7 +3,7 @@
 "rewrites": [{ "source": "/api/(.*)", "destination": "/api" }],
  "builds": [
   {
-   "src": "app.js",
+   "src": "./api/index.js",
    "use": "@vercel/node",
    "config": { "includeFiles": ["dist/**"] }
   }
@@ -11,7 +11,7 @@
  "routes": [
   {
    "src": "/(.*)",
-   "dest": "app.js"
+   "dest": "./api/index.js"
   }
  ]
 }
