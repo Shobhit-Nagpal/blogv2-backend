@@ -4,7 +4,7 @@ const createError = require("http-errors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const indexRouter = require("../routes/index.js");
+const indexRouter = require("./routes/index.js");
 require("dotenv").config();
 
 //Set up configs
