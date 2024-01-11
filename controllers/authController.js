@@ -39,7 +39,7 @@ exports.admin_post = [
 
             });
         } else {
-            res.status(401).statusMessage("Wrong credentials");
+            res.status(401).json({message: "Wrong credentials"});
         }
 
     })
