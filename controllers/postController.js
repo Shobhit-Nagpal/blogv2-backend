@@ -36,12 +36,26 @@ exports.post_get = asyncHandler(async(req, res, next) => {
     }
 });
 
-exports.post_post = asyncHandler(async(req, res, next) => {
+exports.post_publish = asyncHandler(async(req, res, next) => {
     const { title, content } = req.body;
 
     const { error } = await supabase
         .from("posts")
-        .insert({title: title, content: content});
+        .insert({title: title, content: content, is_published: true});
+
+    if (error) {
+        res.status(500).json({error: error});
+    } else {
+        res.status(201).json({"message": "Created post"});
+    }
+});
+
+exports.post_save = asyncHandler(async(req, res, next) => {
+    const { title, content } = req.body;
+
+    const { error } = await supabase
+        .from("posts")
+        .insert({title: title, content: content, is_published: false});
 
     if (error) {
         res.status(500).json({error: error});
