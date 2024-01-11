@@ -41,7 +41,7 @@ exports.post_publish = asyncHandler(async(req, res, next) => {
 
     const { error } = await supabase
         .from("posts")
-        .insert({title: title, content: content, is_published: true});
+        .insert({title: title, content: content, is_published: true}, {returning: "minimal"});
 
     if (error) {
         res.status(500).json({error: error});
