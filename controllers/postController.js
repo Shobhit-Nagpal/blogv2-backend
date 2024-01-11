@@ -4,9 +4,9 @@ const asyncHandler = require("express-async-handler");
 require("dotenv").config();
 
 const PROJECT_URL = process.env.PROJECT_URL;
-const PUBLIC_ANON_KEY = process.env.PUBLIC_ANON_KEY;
+const SERVICE_KEY = process.env.SERVICE_KEY;
 const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
-const supabase = createClient(PROJECT_URL, PUBLIC_ANON_KEY);
+const supabase = createClient(PROJECT_URL, SERVICE_KEY);
 
 exports.posts_list_get = asyncHandler(async(req, res, next) => {
     const { data, error } = await supabase
