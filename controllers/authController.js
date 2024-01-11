@@ -35,7 +35,7 @@ exports.admin_post = [
                     res.status(500).json({error: err});
                 }
 
-                res.status(200).cookie("token", token).json({"message": "Logged in!"});
+                res.status(200).json({"message": "Logged in!", "token": token});
 
             });
         } else {
