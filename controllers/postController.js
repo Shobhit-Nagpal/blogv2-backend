@@ -124,7 +124,7 @@ exports.dashboard_get = asyncHandler(async(req, res, next) => {
     const { token } = req.cookies;
 
     if (token === undefined) {
-        res.status(401).json({"message": "Not authorized", "token": token});
+        res.status(401).json({"message": "Not authorized", "token": token, "test": `This is the token ${token}`});
         return;
     }
 
