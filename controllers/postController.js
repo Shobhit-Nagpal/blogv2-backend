@@ -65,8 +65,8 @@ exports.post_save = asyncHandler(async(req, res, next) => {
 });
 
 exports.post_update = asyncHandler(async(req, res, next) => {
-    const { id, title, content } = req.body;
-    const { token } = req.cookies;
+    const { id, title, content, is_published } = req.body;
+    const token = req.headers.authorization.split(" ")[1];
 
     if (token === undefined) {
         res.status(401).json({"message": "Not authorized"});
@@ -80,7 +80,7 @@ exports.post_update = asyncHandler(async(req, res, next) => {
 
         const { error } = await supabase
         .from("posts")
-        .update({title: title, content: content, updated_at: Date.now()})
+        .update({title: title, content: content, updated_at: Date.now(), is_published: is_published})
         .eq("id", id);
 
         if (error) {
@@ -94,7 +94,7 @@ exports.post_update = asyncHandler(async(req, res, next) => {
 
 exports.post_delete = asyncHandler(async(req, res, next) => {
     const { id } = req.body;
-    const { token } = req.cookies;
+    const token = req.headers.authorization.split(" ")[1];
     
     if (token === undefined) {
         res.status(401).json({error: "Not authorized"});
