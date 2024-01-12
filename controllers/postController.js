@@ -12,6 +12,7 @@ exports.posts_list_get = asyncHandler(async(req, res, next) => {
     const { data, error } = await supabase
         .from("posts")
         .select()
+        .order("created_at", {ascending: true})
         .eq("is_published", true);
 
     if (error) {
@@ -137,7 +138,8 @@ exports.dashboard_get = asyncHandler(async(req, res, next) => {
 
         const { data, error } = await supabase
         .from("posts")
-        .select();
+        .select()
+        .order("created_at", {ascending: true});
 
         if (error) {
             res.status(500).json({error: error});
