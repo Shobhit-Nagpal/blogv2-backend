@@ -80,7 +80,7 @@ exports.post_update = asyncHandler(async(req, res, next) => {
 
         const { error } = await supabase
         .from("posts")
-        .update({title: title, content: content, updated_at: Date.now(), is_published: is_published})
+        .update({title: title, content: content, updated_at: new Date(), is_published: is_published})
         .eq("id", id);
 
         if (error) {
