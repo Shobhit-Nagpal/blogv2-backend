@@ -121,10 +121,12 @@ exports.post_delete = asyncHandler(async(req, res, next) => {
 });
 
 exports.dashboard_get = asyncHandler(async(req, res, next) => {
-    const { token } = req.cookies;
+    const { Authorization } = req.headers;
+
+    const token = Authorization.split(" ")[1];
 
     if (token === undefined) {
-        res.status(401).json({"message": "Not authorized", "token": token, "test": `This is the token ${token}`});
+        res.status(401).json({"message": "Not authorized", "test": `This is the token ${token}`});
         return;
     }
 
