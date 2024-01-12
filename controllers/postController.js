@@ -52,17 +52,46 @@ exports.post_publish = asyncHandler(async(req, res, next) => {
 });
 
 exports.post_save = asyncHandler(async(req, res, next) => {
-    const { title, content } = req.body;
+    const { id, title, content } = req.body;
 
-    const { error } = await supabase
+    const { data, err } = await supabase
         .from("posts")
-        .insert({title: title, content: content, is_published: false});
+        .select()
+        .eq("id", id)
 
-    if (error) {
-        res.status(500).json({error: error});
+    if (err) {
+        res.status(500).json({error: err});
     } else {
-        res.status(201).json({"message": "Created post"});
+        const rowCount = data.length;
+
+        //Create post if does not exist else update old post
+        if (rowCount === 0) {
+
+            const { error } = await supabase
+                .from("posts")
+                .insert({title: title, content: content, is_published: false});
+
+            if (error) {
+                res.status(500).json({error: error});
+            } else {
+                res.status(201).json({"message": "Created post"});
+            }
+        } else {
+
+            const { error } = await supabase
+                .from("posts")
+                .update({title: title, content: content, updated_at: new Date(), is_published: is_published})
+                .eq("id", id);
+
+            if (error) {
+                res.status(500).json({error: error});
+                return;
+            }
+
+            res.status(204).json({"message": "Post updated!"});
+        }
     }
+
 });
 
 exports.post_update = asyncHandler(async(req, res, next) => {
