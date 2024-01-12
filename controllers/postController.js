@@ -37,7 +37,10 @@ exports.post_get = asyncHandler(async(req, res, next) => {
     }
 });
 
-exports.post_publish = asyncHandler(async(req, res, next) => {
+exports.post_publish = [
+    body("title", "Title should be more than 4 characters").isLength({ min: 4 }).escape(),
+    body("content", "Content should be more than 4 characters").isLength({ min: 4 }).escape(),
+    asyncHandler(async(req, res, next) => {
     const { title, content } = req.body;
 
     const { error } = await supabase
@@ -49,9 +52,13 @@ exports.post_publish = asyncHandler(async(req, res, next) => {
     } else {
         res.status(201).json({"message": "Created post"});
     }
-});
+})
+]
 
-exports.post_save = asyncHandler(async(req, res, next) => {
+exports.post_save = [
+    body("title", "Title should be more than 4 characters").isLength({ min: 4 }).escape(),
+    body("content", "Content should be more than 4 characters").isLength({ min: 4 }).escape(),
+    asyncHandler(async(req, res, next) => {
     const { id, title, content } = req.body;
 
     const { data, err } = await supabase
@@ -92,9 +99,13 @@ exports.post_save = asyncHandler(async(req, res, next) => {
         }
     }
 
-});
+})
+]
 
-exports.post_update = asyncHandler(async(req, res, next) => {
+exports.post_update = [
+    body("title", "Title should be more than 4 characters").isLength({ min: 4 }).escape(),
+    body("content", "Content should be more than 4 characters").isLength({ min: 4 }).escape(),
+    asyncHandler(async(req, res, next) => {
     const { id, title, content, is_published } = req.body;
     const token = req.headers.authorization.split(" ")[1];
 
@@ -120,7 +131,8 @@ exports.post_update = asyncHandler(async(req, res, next) => {
 
         res.status(204).json({"message": "Post updated!"});
     });
-});
+})
+]
 
 exports.post_delete = asyncHandler(async(req, res, next) => {
     const { id } = req.body;
