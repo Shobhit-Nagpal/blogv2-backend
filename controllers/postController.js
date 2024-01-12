@@ -1,6 +1,7 @@
 const { createClient } = require("@supabase/supabase-js");
 const jwt = require("jsonwebtoken");
 const asyncHandler = require("express-async-handler");
+const { body } = require("express-validator");
 require("dotenv").config();
 
 const PROJECT_URL = process.env.PROJECT_URL;
