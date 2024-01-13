@@ -17,9 +17,9 @@ exports.posts_list_get = asyncHandler(async(req, res, next) => {
         .eq("is_published", true);
 
     if (error) {
-        res.status(500).json({error: error});
+        return res.status(500).json({error: error});
     } else {
-        res.status(200).json(data);
+        return res.status(200).json(data);
     }
 });
 
@@ -32,9 +32,9 @@ exports.post_get = asyncHandler(async(req, res, next) => {
         .eq("id", id);
 
     if (error) {
-        res.status(500).json({error: error});
+        return res.status(500).json({error: error});
     } else {
-        res.status(200).json(data);
+        return res.status(200).json(data);
     }
 });
 
@@ -49,9 +49,9 @@ exports.post_publish = [
         .insert({title: title, content: content, is_published: true});
 
     if (error) {
-        res.status(500).json({error: error});
+        return res.status(500).json({error: error});
     } else {
-        res.status(201).json({"message": "Created post"});
+        return res.status(201).json({"message": "Created post"});
     }
 })
 ]
@@ -68,7 +68,7 @@ exports.post_save = [
         .eq("id", id)
 
     if (err) {
-        res.status(500).json({error: err});
+        return res.status(500).json({error: err});
     } else {
         const rowCount = data.length;
 
@@ -80,10 +80,11 @@ exports.post_save = [
                 .insert({title: title, content: content, is_published: false});
 
             if (error) {
-                res.status(500).json({error: error});
+                return res.status(500).json({error: error});
             } else {
-                res.status(201).json({"message": "Created post"});
+                return res.status(201).json({"message": "Created post"});
             }
+
         } else {
 
             const { error } = await supabase
@@ -92,11 +93,10 @@ exports.post_save = [
                 .eq("id", id);
 
             if (error) {
-                res.status(500).json({error: error});
-                return;
+                return res.status(500).json({error: error});
             }
 
-            res.status(204).json({"message": "Post updated!"});
+            return res.status(204).json({"message": "Post updated!"});
         }
     }
 
@@ -111,13 +111,12 @@ exports.post_update = [
     const token = req.headers.authorization.split(" ")[1];
 
     if (token === undefined) {
-        res.status(401).json({"message": "Not authorized"});
+        return res.status(401).json({"message": "Not authorized"});
     }
 
     jwt.verify(token, JWT_ACCESS_SECRET, async function(err, info) {
         if (err) {
-            res.status(500).json({error: err});
-            return;
+            return res.status(500).json({error: err});
         }
 
         const { error } = await supabase
@@ -126,11 +125,10 @@ exports.post_update = [
         .eq("id", id);
 
         if (error) {
-            res.status(500).json({error: error});
-            return;
+            return res.status(500).json({error: error});
         }
 
-        res.status(204).json({"message": "Post updated!"});
+        return res.status(204).json({"message": "Post updated!"});
     });
 })
 ]
@@ -140,13 +138,12 @@ exports.post_delete = asyncHandler(async(req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
     
     if (token === undefined) {
-        res.status(401).json({error: "Not authorized"});
-        return;
+        return res.status(401).json({error: "Not authorized"});
     }
 
     jwt.verify(token, JWT_ACCESS_SECRET, async function(err, info) {
         if (err) {
-            res.status(500).json({error: err});
+            return res.status(500).json({error: err});
         }
 
         const { error } = await supabase
@@ -155,11 +152,10 @@ exports.post_delete = asyncHandler(async(req, res, next) => {
         .eq("id", id);
 
         if (error) {
-            res.status(500).json({error: error});
-            return;
+            return res.status(500).json({error: error});
         }
 
-        res.status(204).json({"message": "Post deleted!"});
+        return res.status(204).json({"message": "Post deleted!"});
     });
 });
 
@@ -168,14 +164,12 @@ exports.dashboard_get = asyncHandler(async(req, res, next) => {
     const token = req.headers.authorization.split(" ")[1];
 
     if (token === undefined) {
-        res.status(401).json({"message": "Not authorized"``});
-        return;
+        return res.status(401).json({"message": "Not authorized"``});
     }
 
     jwt.verify(token, JWT_ACCESS_SECRET, async function(err, info) {
         if (err) {
-            res.status(500).json({error: err});
-            return;
+            return res.status(500).json({error: err});
         }
 
         const { data, error } = await supabase
@@ -184,10 +178,9 @@ exports.dashboard_get = asyncHandler(async(req, res, next) => {
         .order("created_at", {ascending: false});
 
         if (error) {
-            res.status(500).json({error: error});
-            return;
+            return res.status(500).json({error: error});
         }
 
-        res.status(200).json(data);
+        return res.status(200).json(data);
     });
 });
