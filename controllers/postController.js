@@ -96,7 +96,7 @@ exports.post_save = [
                 return res.status(500).json({error: error});
             }
 
-            return res.status(204).json({"message": "Post updated!"});
+            return res.status(200).json({"message": "Post updated!"});
         }
     }
 
@@ -128,7 +128,7 @@ exports.post_update = [
             return res.status(500).json({error: error});
         }
 
-        return res.status(204).json({"message": "Post updated!"});
+        return res.status(200).json({"message": "Post updated!"});
     });
 })
 ]
@@ -155,7 +155,7 @@ exports.post_delete = asyncHandler(async(req, res, next) => {
             return res.status(500).json({error: error});
         }
 
-        return res.status(204).json({"message": "Post deleted!"});
+        return res.status(200).json({"message": "Post deleted!"});
     });
 });
 
