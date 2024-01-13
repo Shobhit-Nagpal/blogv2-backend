@@ -60,7 +60,7 @@ exports.post_save = [
     body("title", "Title should be more than 4 characters").isLength({ min: 4 }).escape(),
     body("content", "Content should be more than 4 characters").isLength({ min: 4 }).escape(),
     asyncHandler(async(req, res, next) => {
-    const { id, title, content } = req.body;
+    const { id, title, content, is_published } = req.body;
 
     const { data, err } = await supabase
         .from("posts")
