@@ -15,7 +15,7 @@ app.use(express.json())
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors({credentials: true, origin: "https://blogv2-frontend.vercel.app"}));
+app.use(cors({credentials: true, origin: ["https://blogv2-frontend.vercel.app", "http://localhost:3000"]}));
 app.use("/", indexRouter);
 
 //Error handling
